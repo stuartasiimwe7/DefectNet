@@ -18,6 +18,7 @@ Thumbs.db
 
 # Ignore log files
 *.log
+.gitignore
 
 # Ignore compiled files
 *.o
@@ -30,3 +31,9 @@ Thumbs.db
 .idea/
 *.sublime-project
 *.sublime-workspace
+
+# Ignore everything in data/dataset folders
+data/
+data/pcb_dataset/
+yolov5/
+kagglehub/
