@@ -16,7 +16,7 @@ def preprocess_image(image, size=(640, 640)):
 
 def load_data(data_dir):
     data = []
-    for img_file in Path(data_dir).rglob("*.jpg"):  #dataset
+    for img_file in Path(data_dir).rglob("*.jpg"): 
         img = load_image(str(img_file))
         img = preprocess_image(img)
         data.append(img)
