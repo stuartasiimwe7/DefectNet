@@ -22,6 +22,6 @@ def load_data(data_dir):
         data.append(img)
     return np.array(data)
 
-# Test the function (example)
-data = load_data('data/')
-print(f"Loaded {len(data)} images for training.")
+# Testing!!
+#data = load_data('data/')
+#print(f"Loaded {len(data)} images for training.")
