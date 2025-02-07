@@ -12,7 +12,12 @@ torchvision
 torchaudio  # For compatibility with PyTorch
 
 # YOLOv5 and Dependencies
-git+https://github.com/ultralytics/yolov5.git  # Install latest YOLOv5 from GitHub
+# Install latest YOLOv5 from GitHub
+#git clone https://github.com/ultralytics/yolov5.git
+#cd yolov5
+#pip install -r requirements.txt
+#cd ../DefectNet
+
 scipy
 tqdm
 PyYAML  # For config files
