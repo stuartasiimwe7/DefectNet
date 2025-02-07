@@ -1,0 +1,36 @@
+# Core dependencies
+numpy
+pandas
+opencv-python
+torch
+torchvision
+tensorflow
+onnx
+onnxruntime
+
+# Deep learning frameworks
+yolov5 @ git+https://github.com/ultralytics/yolov5.git  # If using YOLOv5
+# detectron2 needs to be installed separately
+
+# API Framework
+fastapi
+uvicorn
+
+# Utility Libraries
+scikit-learn
+matplotlib
+seaborn
+pillow  # For handling images
+
+# Monitoring & Logging
+prometheus-client
+loguru
+
+# Deployment & Serving
+torchserve
+tensorflow-serving-api
+onnxruntime
+
+# Optional (for visualization & testing)
+jupyterlab
+pytest
