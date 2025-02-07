@@ -1,35 +1,40 @@
-# Core dependencies
+# Core Libraries
 numpy
 pandas
 opencv-python
+matplotlib
+seaborn
+pillow  # Image processing
+
+# Deep Learning Frameworks
 torch
 torchvision
-tensorflow
-onnx
-onnxruntime
+torchaudio  # For compatibility with PyTorch
 
-# Deep learning frameworks
-yolov5 @ git+https://github.com/ultralytics/yolov5.git  # If using YOLOv5
-# detectron2 needs to be installed separately
+# YOLOv5 and Dependencies
+git+https://github.com/ultralytics/yolov5.git  # Install latest YOLOv5 from GitHub
+scipy
+tqdm
+PyYAML  # For config files
+requests
 
-# API Framework
+# FastAPI (Backend)
 fastapi
 uvicorn
 
-# Utility Libraries
-scikit-learn
-matplotlib
-seaborn
-pillow  # For handling images
+# Model Serving
+torchserve
+torch-model-archiver
+onnx
+onnxruntime
 
 # Monitoring & Logging
 prometheus-client
 loguru
 
-# Deployment & Serving
-torchserve
-tensorflow-serving-api
-onnxruntime
+# Containerization & Deployment
+docker
+boto3  # AWS SDK for interacting with S3, Lambda, etc.
 
 # Optional (for visualization & testing)
 jupyterlab
