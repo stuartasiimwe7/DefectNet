@@ -10,17 +10,20 @@ DefectNet is an AI-driven system for detecting and classifying defects in semico
 
 ## Tech Stack
 
+|## Tech Stack
+
 | **Category** | **Technology Choices** |
 |-------------|-----------------------|
 | **Data Preprocessing** | Python, OpenCV, PyTorch, Pandas, NumPy |
-| **AI Model** | PyTorch (Faster R-CNN, Detectron2), TensorFlow, ONNX |
-| **Backend API** | FastAPI (preferred) |
+| **AI Model** | PyTorch (YOLOv5) |
+| **Backend API** | FastAPI |
 | **Frontend** | React.js (with Bootstrap/Tailwind for styling) |
 | **Containerization** | Docker |
 | **Cloud Deployment** | AWS (EC2, Lambda, S3) |
-| **Model Serving** | TorchServe/TensorFlow Serving/Triton Inference Server |
+| **Model Serving** | TorchServe, ONNX Runtime |
 | **Monitoring & Logging** | Prometheus, Grafana, CloudWatch |
-| **CI/CD** | GitHub Actions, DockerHub, Terraform (for cloud infrastructure) |
+| **CI/CD** | GitHub Actions, DockerHub, Terraform |
+
 
 
 ## Installation
