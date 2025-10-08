@@ -1,0 +1,17 @@
+# PCB Defect Detection Dataset Configuration
+# This file defines the dataset structure for YOLOv5 training
+
+# Dataset paths (relative to project root)
+train: data/pcb_dataset/train/images
+val: data/pcb_dataset/val/images
+
+# Number of classes
+nc: 6
+
+# Class names (matching the preparation_script.py classes)
+names: ['missing_hole', 'mouse_bite', 'open_circuit', 'short', 'spur', 'spurious_copper']
+
+# Additional configuration
+img_size: 640
+batch_size: 16
+epochs: 100
