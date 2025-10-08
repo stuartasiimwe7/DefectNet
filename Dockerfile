@@ -8,7 +8,7 @@ COPY . .
 EXPOSE 8000
 
 #run the app
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
 
 
 #build the Docker container:
