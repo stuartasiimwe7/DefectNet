@@ -4,8 +4,8 @@ import os
 
 # Download latest version
 path = kagglehub.dataset_download("akhatova/pcb-defects")
-# Define the destination directory
-destination_dir = "/data/dataset"
+# Define the destination directory (relative to project root)
+destination_dir = "data/dataset"
 
 # Create the destination directory if it doesn't exist
 os.makedirs(destination_dir, exist_ok=True)
