@@ -4,25 +4,20 @@ import xml.etree.ElementTree as ET
 import random
 import shutil
 
-#Paths
-image_dir = "data/pcb_dataset/images/"
+image_dir = "data/dataset/images/"
 resized_dir = "data/pcb_dataset/resized_images/"
-xml_dir = "data/pcb_dataset/Annotations/"
+xml_dir = "data/dataset/Annotations/"
 yolo_label_dir = "data/pcb_dataset/yolo_labels/"
 train_image_dir = "data/pcb_dataset/train/images/"
 val_image_dir = "data/pcb_dataset/val/images/"
 train_label_dir = "data/pcb_dataset/train/labels/"
 val_label_dir = "data/pcb_dataset/val/labels/"
 
-#Classes
 classes = ['missing_hole', 'mouse_bite', 'open_circuit', 'short', 'spur', 'spurious_copper']
 
-#Create necessary directories
 for dir_path in [resized_dir, yolo_label_dir, train_image_dir, val_image_dir, train_label_dir, val_label_dir]:
     os.makedirs(dir_path, exist_ok=True)
 
-
-#Step 1-Resize Images to 640x640
 for class_name in os.listdir(image_dir):
     class_path = os.path.join(image_dir, class_name)
     output_class_dir = os.path.join(resized_dir, class_name)
@@ -40,8 +35,6 @@ for class_name in os.listdir(image_dir):
 
 print("Images resized to 640x640.")
 
-
-#Step - Convert Pascal VOC Annotations to YOLO Format
 def convert_voc_to_yolo(xml_file, output_dir):
     tree = ET.parse(xml_file)
     root = tree.getroot()
@@ -72,7 +65,6 @@ def convert_voc_to_yolo(xml_file, output_dir):
 
             yolo_file.write(f"{class_idx} {x_center} {y_center} {width} {height}\n")
 
-
 for class_name in os.listdir(xml_dir):
     class_dir = os.path.join(xml_dir, class_name)
     output_class_dir = os.path.join(yolo_label_dir, class_name)
@@ -86,8 +78,6 @@ for class_name in os.listdir(xml_dir):
 
 print("Pascal VOC annotations converted to YOLO format.")
 
-
-#Step -Split Dataset into Train (80%) and Validation (20%) Sets
 for class_name in classes:
     image_class_dir = os.path.join(resized_dir, class_name)
     label_class_dir = os.path.join(yolo_label_dir, class_name)
