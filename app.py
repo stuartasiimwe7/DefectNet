@@ -9,25 +9,21 @@ import logging
 from typing import List, Dict, Any
 import time
 
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Initialize FastAPI
 app = FastAPI(
     title="PCB Defect Detection API",
     description="AI-powered system for detecting defects in PCB images",
     version="1.0.0"
 )
 
-# Global model variable
 model = None
 
 def load_model():
     """Load YOLOv5 model using torch.hub for proper initialization"""
     global model
     try:
-        # Use torch.hub to load YOLOv5 model properly
         model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
         model.eval()
         logger.info("YOLOv5 model loaded successfully")
@@ -39,16 +35,12 @@ def load_model():
 def preprocess_image(image_bytes: bytes) -> np.ndarray:
     """Preprocess uploaded image for YOLOv5 inference"""
     try:
-        # Load image from bytes
         image = Image.open(io.BytesIO(image_bytes))
         
-        # Convert to RGB if necessary
         if image.mode != 'RGB':
             image = image.convert('RGB')
         
-        # Convert to numpy array
         image_array = np.array(image)
-        
         return image_array
     except Exception as e:
         logger.error(f"Image preprocessing failed: {str(e)}")
@@ -59,12 +51,11 @@ def postprocess_predictions(results) -> List[Dict[str, Any]]:
     try:
         predictions = []
         
-        # Extract predictions from YOLOv5 results
         if hasattr(results, 'pandas'):
-            df = results.pandas().xyxy[0]  # Get first image predictions
+            df = results.pandas().xyxy[0]
             
             for _, row in df.iterrows():
-                if row['confidence'] > 0.5:  # Filter low confidence predictions
+                if row['confidence'] > 0.5:
                     prediction = {
                         "class": row['name'],
                         "confidence": float(row['confidence']),
@@ -118,22 +109,18 @@ async def predict(file: UploadFile = File(...)):
     if model is None:
         raise HTTPException(status_code=503, detail="Model not loaded")
     
-    # Validate file type
     if not file.content_type.startswith('image/'):
         raise HTTPException(status_code=400, detail="File must be an image")
     
     try:
         start_time = time.time()
         
-        # Read and preprocess image
         image_bytes = await file.read()
         image_array = preprocess_image(image_bytes)
         
-        # Run inference
         with torch.no_grad():
             results = model(image_array)
         
-        # Postprocess results
         predictions = postprocess_predictions(results)
         
         inference_time = time.time() - start_time
@@ -171,14 +158,13 @@ async def predict_batch(files: List[UploadFile] = File(...)):
     if model is None:
         raise HTTPException(status_code=503, detail="Model not loaded")
     
-    if len(files) > 10:  # Limit batch size
+    if len(files) > 10:
         raise HTTPException(status_code=400, detail="Maximum 10 images per batch")
     
     results = []
     
     for i, file in enumerate(files):
         try:
-            # Validate file type
             if not file.content_type.startswith('image/'):
                 results.append({
                     "filename": file.filename,
@@ -186,7 +172,6 @@ async def predict_batch(files: List[UploadFile] = File(...)):
                 })
                 continue
             
-            # Process single image
             image_bytes = await file.read()
             image_array = preprocess_image(image_bytes)
             
