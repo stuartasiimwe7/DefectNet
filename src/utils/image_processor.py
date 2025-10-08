@@ -1,4 +1,3 @@
-import cv2
 import numpy as np
 from PIL import Image
 import io
@@ -64,7 +63,9 @@ class ImageProcessor:
     def resize_image(self, image: np.ndarray, size: Tuple[int, int] = (640, 640)) -> np.ndarray:
         """Resize image to specified dimensions"""
         try:
-            return cv2.resize(image, size)
+            pil_image = Image.fromarray(image)
+            resized = pil_image.resize(size, Image.Resampling.LANCZOS)
+            return np.array(resized)
         except Exception as e:
             logger.error(f"Image resize failed: {str(e)}")
             raise HTTPException(status_code=400, detail=f"Image resize failed: {str(e)}")

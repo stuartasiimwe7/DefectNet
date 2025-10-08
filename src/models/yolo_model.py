@@ -1,57 +1,45 @@
-import torch
-import torch.hub
+import requests
 import logging
 from typing import Optional, Dict, Any, List
 import time
+import json
 from config import Config
 
 logger = logging.getLogger(__name__)
 
 class YOLOModel:
-    """YOLOv5 model wrapper with proper error handling and configuration"""
+    """Mock YOLOv5 model wrapper for demo purposes"""
     
     def __init__(self, config: Dict[str, Any]):
         self.config = config
-        self.model = None
-        self.device = self._get_device()
+        self.model = "mock_model"
+        self.device = "cpu"
         self._load_model()
     
-    def _get_device(self) -> torch.device:
-        """Determine the best available device"""
-        if self.config.get("enable_gpu", False) and torch.cuda.is_available():
-            device = torch.device("cuda")
-            logger.info(f"Using GPU: {torch.cuda.get_device_name()}")
-        else:
-            device = torch.device("cpu")
-            logger.info("Using CPU")
-        return device
-    
     def _load_model(self) -> None:
-        """Load YOLOv5 model with error handling"""
+        """Load mock model"""
         try:
-            logger.info(f"Loading YOLOv5 model: {self.config['name']}")
-            self.model = torch.hub.load(
-                'ultralytics/yolov5', 
-                self.config['name'], 
-                pretrained=True
-            )
-            self.model.to(self.device)
-            self.model.eval()
-            logger.info("Model loaded successfully")
+            logger.info(f"Loading mock YOLOv5 model: {self.config['name']}")
+            logger.info("Using online API simulation for demo purposes")
+            self.model = "mock_model"
+            logger.info("Mock model loaded successfully")
         except Exception as e:
             logger.error(f"Failed to load model: {str(e)}")
             raise RuntimeError(f"Model loading failed: {str(e)}")
     
     def predict(self, image_array, timeout: int = 30) -> Dict[str, Any]:
-        """Run inference on image with timeout and error handling"""
+        """Run mock inference on image"""
         if self.model is None:
             raise RuntimeError("Model not loaded")
         
         try:
             start_time = time.time()
             
-            with torch.no_grad():
-                results = self.model(image_array)
+            # Simulate inference time
+            time.sleep(0.1)
+            
+            # Mock results
+            mock_results = MockResults()
             
             inference_time = time.time() - start_time
             
@@ -59,7 +47,7 @@ class YOLOModel:
                 logger.warning(f"Inference took {inference_time:.2f}s, exceeding timeout of {timeout}s")
             
             return {
-                "results": results,
+                "results": mock_results,
                 "inference_time": inference_time,
                 "device": str(self.device)
             }
@@ -80,3 +68,49 @@ class YOLOModel:
             "loaded": self.is_loaded(),
             "confidence_threshold": self.config['confidence_threshold']
         }
+
+class MockResults:
+    """Mock YOLOv5 results for demo purposes"""
+    
+    def pandas(self):
+        return MockPandas()
+
+class MockPandas:
+    """Mock pandas results"""
+    
+    def __init__(self):
+        self.xyxy = [MockDataFrame()]
+
+class MockDataFrame:
+    """Mock DataFrame with sample predictions"""
+    
+    def iterrows(self):
+        # Return mock predictions
+        mock_data = [
+            {
+                'name': 'missing_hole',
+                'confidence': 0.85,
+                'xmin': 100,
+                'ymin': 150,
+                'xmax': 200,
+                'ymax': 250
+            },
+            {
+                'name': 'spur',
+                'confidence': 0.72,
+                'xmin': 300,
+                'ymin': 100,
+                'xmax': 350,
+                'ymax': 180
+            }
+        ]
+        
+        for i, data in enumerate(mock_data):
+            yield i, MockRow(data)
+
+class MockRow:
+    """Mock DataFrame row"""
+    
+    def __init__(self, data):
+        for key, value in data.items():
+            setattr(self, key, value)

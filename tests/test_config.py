@@ -35,17 +35,28 @@ class TestConfig:
     def test_environment_variables(self):
         """Test environment variable handling"""
         original_log_level = os.environ.get("LOG_LEVEL")
+        original_enable_gpu = os.environ.get("ENABLE_GPU")
         
         try:
             os.environ["LOG_LEVEL"] = "DEBUG"
-            assert Config.LOG_LEVEL == "DEBUG"
+            # Reload config to pick up environment variable
+            import importlib
+            import config
+            importlib.reload(config)
+            assert config.Config.LOG_LEVEL == "DEBUG"
             
             os.environ["ENABLE_GPU"] = "true"
-            assert Config.ENABLE_GPU == True
+            importlib.reload(config)
+            assert config.Config.ENABLE_GPU == True
             
         finally:
             if original_log_level:
                 os.environ["LOG_LEVEL"] = original_log_level
             else:
                 os.environ.pop("LOG_LEVEL", None)
-            os.environ.pop("ENABLE_GPU", None)
+            if original_enable_gpu:
+                os.environ["ENABLE_GPU"] = original_enable_gpu
+            else:
+                os.environ.pop("ENABLE_GPU", None)
+            # Reload config back to original state
+            importlib.reload(config)

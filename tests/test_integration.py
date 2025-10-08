@@ -1,7 +1,6 @@
 import pytest
 import numpy as np
 from unittest.mock import Mock, patch
-import torch
 
 from src.services.defect_detection_service import DefectDetectionService
 from src.models.yolo_model import YOLOModel
@@ -15,14 +14,8 @@ class TestIntegration:
         """Setup test fixtures"""
         self.sample_image_array = np.random.randint(0, 255, (100, 100, 3), dtype=np.uint8)
     
-    @patch('src.models.yolo_model.torch.hub.load')
-    def test_yolo_model_integration(self, mock_hub_load):
+    def test_yolo_model_integration(self):
         """Test YOLO model integration"""
-        mock_model = Mock()
-        mock_model.eval.return_value = None
-        mock_model.to.return_value = None
-        mock_hub_load.return_value = mock_model
-        
         config = {
             "name": "yolov5s",
             "confidence_threshold": 0.5,
@@ -33,7 +26,7 @@ class TestIntegration:
         model = YOLOModel(config)
         
         assert model.is_loaded()
-        assert model.device.type == "cpu"
+        assert model.device == "cpu"
         
         model_info = model.get_model_info()
         assert model_info["name"] == "yolov5s"
@@ -88,24 +81,8 @@ class TestIntegration:
         assert "summary" in batch_response
         assert batch_response["summary"]["total_images"] == 1
     
-    @patch('src.models.yolo_model.torch.hub.load')
-    def test_service_integration(self, mock_hub_load):
+    def test_service_integration(self):
         """Test defect detection service integration"""
-        mock_model = Mock()
-        mock_model.eval.return_value = None
-        mock_model.to.return_value = None
-        mock_hub_load.return_value = mock_model
-        
-        # Mock prediction results
-        mock_results = Mock()
-        mock_df = Mock()
-        mock_df.iterrows.return_value = []
-        mock_pandas = Mock()
-        mock_pandas.xyxy = [mock_df]
-        mock_results.pandas.return_value = mock_pandas
-        
-        mock_model.return_value = mock_results
-        
         service = DefectDetectionService()
         
         assert service.is_ready()
