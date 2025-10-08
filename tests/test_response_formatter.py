@@ -15,9 +15,21 @@ class TestResponseFormatter:
         mock_results = Mock()
         mock_df = Mock()
         
-        mock_df.iterrows.return_value = [
-            (i, Mock(**data)) for i, data in enumerate(predictions_data)
-        ]
+        # Create proper mock rows with dictionary access
+        mock_rows = []
+        for i, data in enumerate(predictions_data):
+            # Create a mock that supports dictionary access
+            class MockRow:
+                def __init__(self, data):
+                    self.data = data
+                
+                def __getitem__(self, key):
+                    return self.data[key]
+            
+            mock_row = MockRow(data)
+            mock_rows.append((i, mock_row))
+        
+        mock_df.iterrows.return_value = mock_rows
         
         mock_pandas = Mock()
         mock_pandas.xyxy = [mock_df]

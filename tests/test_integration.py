@@ -55,12 +55,27 @@ class TestIntegration:
         """Test response formatter integration"""
         formatter = ResponseFormatter(confidence_threshold=0.5)
         
-        # Create mock results
+        # Create mock results with proper structure
         mock_results = Mock()
         mock_df = Mock()
-        mock_df.iterrows.return_value = [
-            (0, Mock(name="defect", confidence=0.8, xmin=10, ymin=20, xmax=30, ymax=40))
-        ]
+        
+        # Create a proper mock row with dictionary access
+        class MockRow:
+            def __init__(self):
+                self.data = {
+                    "name": "defect",
+                    "confidence": 0.8,
+                    "xmin": 10,
+                    "ymin": 20,
+                    "xmax": 30,
+                    "ymax": 40
+                }
+            
+            def __getitem__(self, key):
+                return self.data[key]
+        
+        mock_row = MockRow()
+        mock_df.iterrows.return_value = [(0, mock_row)]
         mock_pandas = Mock()
         mock_pandas.xyxy = [mock_df]
         mock_results.pandas.return_value = mock_pandas
