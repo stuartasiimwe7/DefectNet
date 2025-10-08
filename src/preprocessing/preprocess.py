@@ -6,12 +6,12 @@ import pandas as pd
 
 def load_image(image_path):
     image = cv2.imread(image_path)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  #BGR to RGB
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     return image
 
 def preprocess_image(image, size=(640, 640)):
     image_resized = cv2.resize(image, size)
-    image_normalized = image_resized / 255.0  #Normalize pixel values to 0-1
+    image_normalized = image_resized / 255.0
     return image_normalized
 
 def load_data(data_dir):
@@ -21,7 +21,3 @@ def load_data(data_dir):
         img = preprocess_image(img)
         data.append(img)
     return np.array(data)
-
-# Testing!!
-#data = load_data('data/')
-#print(f"Loaded {len(data)} images for training.")
