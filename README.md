@@ -95,11 +95,11 @@ There is comprehensive test coverage across all components with 32 passing tests
 - Response Formatter Tests (5): Result formatting and error responses
 - Integration Tests (6): End-to-end system integration
 
-## Installation and Setup
+## Want to replicate?
 
 **Prerequisites:** Python 3.8+ (see requirements.txt for dependencies)
 
-### Want to replicate?
+### Installation and Setup 
 
 ```bash
 # Clone and navigate
