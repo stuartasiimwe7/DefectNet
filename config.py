@@ -16,6 +16,10 @@ class Config:
     MAX_BATCH_SIZE = 10
     MAX_FILE_SIZE_MB = 50
     
+    # Rate limiting
+    RATE_LIMIT_SINGLE = "100/minute"
+    RATE_LIMIT_BATCH = "20/minute"
+    
     # Logging configuration
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
     LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

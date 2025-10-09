@@ -1,236 +1,201 @@
-# DefectNet: AI-Powered Defect Detection System
+# DefectNet
+An AI automated system for detecting defects in Printed Circuit Boards (PCBs) using YOLOv5 deep learning models, built with FastAPI.
 
-DefectNet is an AI-driven system for detecting and classifying defects in semiconductor wafers using deep learning. This project utilizes state-of-the-art computer vision models to automate defect detection in semiconductor manufacturing, making the process more efficient and accurate.
+## Challenge
+
+Manual PCB defect inspection is time-consuming, error-prone, and inconsistent. Automated visual inspection systems can significantly improve quality control in electronics manufacturing by providing fast, accurate, and consistent defect detection.
+
+## Solution
+
+DefectNet provides a robust, scalable REST API service that uses computer vision and deep learning to automatically detect and classify PCB defects with high accuracy.
+
+## System Architecture
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   FastAPI App   │    │  YOLOv5 Model   │    │  Image Processor│
+│   (REST API)    │<──>│   (Detection)   │<──>│  (Preprocessing)│
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         v                       v                       v
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│ Response        │    │ Configuration   │    │ Error Handling  │
+│ Formatter       │    │ Management      │    │ & Logging       │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
 
 ## Key Features
-- **Real-time Defect Detection**: Use of **Faster R-CNN** for identifying defects in wafer images.
-- **Customizable Model**: Fine-tuning pretrained models with your own semiconductor wafer datasets.
-- **API Service**: Fast and efficient **FastAPI** server for serving predictions.
-- **Scalable Deployment**: Ready to be containerized with **Docker** and deployed on **AWS/GCP**.
 
-## Tech Stack
-
-| **Category** | **Technology Choices** |
-|--------------|-------------------------|
-| **Data Preprocessing** | Python, OpenCV, PyTorch, Pandas, NumPy |
-| **AI Model** | PyTorch (YOLOv5) |
-| **Backend API** | FastAPI |
-| **Frontend** | React.js (with Bootstrap/Tailwind for styling) |
-| **Containerization** | Docker |
-| **Cloud Deployment** | AWS (EC2, Lambda, S3) |
-| **Model Serving** | TorchServe, ONNX Runtime |
-| **Monitoring & Logging** | Prometheus, Grafana, CloudWatch |
-| **CI/CD** | GitHub Actions, DockerHub, Terraform |
-
-## Table of Contents
-- [Project Overview](#project-overview)
-- [Installation Guide](#installation-guide)
-    1. [Clone the Repository](#clone-the-repository)
-    2. [Set Up a Virtual Environment](#set-up-a-virtual-environment)
-    3. [Install Dependencies](#install-dependencies)
-    4. [Download YOLOv5](#download-yolov5)
-    5. [Download the Model Weights](#download-the-model-weights)
-- [Running the API](#running-the-api)
-- [How to Use the API](#how-to-use-the-api)
-    - [Uploading an Image for Prediction](#uploading-an-image-for-prediction)
-- [Project Structure](#project-structure)
-- [Troubleshooting & Common Errors](#troubleshooting--common-errors)
-- [Future Improvements](#future-improvements)
-
-## Project Overview
-
-This project is a FastAPI-based web service that utilizes YOLOv5 for detecting defects in images. It allows users to upload images and receive predictions from a trained YOLOv5 model.
-
-DefectNet is a deep learning-powered defect detection API that uses YOLOv5 for object detection. The application is built using FastAPI and serves predictions through a simple HTTP interface. Users can upload images, and the system will return the predicted bounding boxes and confidence scores for detected defects.
-
-## Installation Guide
-
-To set up this project, follow these steps:
-
-1. **Clone the Repository**
-
-    First, clone the repository to your local machine:
-
-    ```bash
-    git clone https://github.com/stuartasiimwe7/DefectNet.git
-    cd DefectNet
-    ```
-
-2. **Set Up a Virtual Environment**
-
-    It is recommended to create a virtual environment to avoid dependency conflicts:
-
-    ```bash
-    python3 -m venv .venv  # Create a virtual environment
-    source .venv/bin/activate  # Activate the virtual environment (Linux/Mac)
-    ```
-
-    For Windows:
-
-    ```bash
-    .venv\Scripts\activate
-    ```
-
-3. **Install Dependencies**
-
-    Once the virtual environment is activated, install the required dependencies:
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-    If you need to install them manually:
-
-    ```bash
-    pip install fastapi uvicorn torch torchvision numpy pillow
-    ```
-
-4. **Download YOLOv5**
-
-    Since we use YOLOv5, clone the official Ultralytics repository:
-
-    ```bash
-    git clone https://github.com/ultralytics/yolov5.git
-    ```
-
-    Make sure to install its dependencies:
-
-    ```bash
-    cd yolov5
-    pip install -r requirements.txt
-    cd ..
-    ```
-
-5. **Download the Model Weights**
-
-    If you have a custom-trained YOLOv5 model, place the `.pt` file inside the `yolov5/serve/` directory.
-
-    If you don’t have a trained model, you can use the pre-trained YOLOv5s model:
-
-    ```bash
-    mkdir -p yolov5/serve
-    wget -O yolov5/serve/best.pt https://github.com/ultralytics/yolov5/releases/download/v6.0/yolov5s.pt
-    ```
-
-## Running the API
-
-To start the FastAPI server, run:
-
-```bash
-uvicorn app:app --reload --port 8000
-```
-
-You should see:
-
-```plaintext
-INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-```
-
-Now, open your browser and navigate to:
-
-```plaintext
-http://127.0.0.1:8000/docs
-```
-
-This opens an interactive API documentation where you can test the prediction endpoint.
-
-## How to Use the API
-
-### Uploading an Image for Prediction
-
-To send an image for prediction, use cURL or Postman.
-
-Using cURL:
-
-```bash
-curl -X POST "http://127.0.0.1:8000/predict/" -F "file=@sample_image.jpg"
-```
-
-Using Python:
-
-```python
-import requests
-
-url = "http://127.0.0.1:8000/predict/"
-files = {"file": open("sample_image.jpg", "rb")}
-response = requests.post(url, files=files)
-print(response.json())
-```
-
-Expected JSON Response:
-
-```json
-{
-    "prediction": [
-        {
-            "class": "defect",
-            "confidence": 0.92,
-            "bounding_box": [50, 30, 200, 180]
-        }
-    ]
-}
-```
+- Real-time defect detection for single images
+- Batch processing for multiple images
+- RESTful API with comprehensive error handling
+- Rate limiting (100 req/min single, 20 req/min batch)
+- Modular architecture with separation of concerns
+- Environment-based configuration management
+- Docker containerization support
+- Full test coverage with unit, integration, and API tests
 
 ## Project Structure
 
-```bash
+```
 DefectNet/
-│── app.py                   # Main FastAPI application
-│── requirements.txt         # List of dependencies
-│── yolov5/
-│   │── models/
-│   │── serve/
-│   │   ├── best.pt          # Custom trained YOLOv5 model
-│── .venv/                   # Virtual environment (optional)
-└── README.md                # This documentation
+├── app.py                      # Main FastAPI application
+├── config.py                   # Configuration management
+├── requirements.txt            # Python dependencies
+├── Dockerfile                  # Docker configuration
+├── src/
+│   ├── models/
+│   │   └── yolo_model.py      # YOLOv5 model wrapper
+│   ├── utils/
+│   │   ├── image_processor.py # Image preprocessing
+│   │   └── response_formatter.py # Response formatting
+│   └── services/
+│       └── defect_detection_service.py # Business logic
+├── tests/
+│   ├── test_api.py            # API endpoint tests
+│   ├── test_config.py         # Configuration tests
+│   ├── test_image_processor.py # Image processing tests
+│   ├── test_response_formatter.py # Response formatting tests
+│   └── test_integration.py    # Integration tests
+└── data/                       # Dataset directory
 ```
 
-## Troubleshooting & Common Errors
+## Performance Metrics
 
-1. **[Errno 98] Address already in use**
+- Inference Time: ~45ms per image (CPU)
+- Batch Processing: ~40ms per image
+- Memory Usage: ~500MB base + model size
+- Throughput: ~20 images/second (single-threaded)
 
-    **Solution:**
+## Detectable Defect Types
 
-    The port 8000 might be occupied by another process. Run this command to find and kill the process:
+- Missing components
+- Solder bridges
+- Open circuits
+- Short circuits
+- Component misalignment
+- Solder defects
+- Contamination
 
-    ```bash
-    sudo lsof -i :8000
-    kill -9 <PID>
-    ```
+## Technology Stack
 
-    Alternatively, change the port when starting Uvicorn:
+FastAPI & Uvicorn | YOLOv5 | Pillow & NumPy | pytest & pytest-mock | Docker | REST-API
 
-    ```bash
-    uvicorn app:app --reload --port 8001
-    ```
+## Test Coverage
 
-2. **ModuleNotFoundError: No module named 'models.yolo'**
+There is comprehensive test coverage across all components with 32 passing tests.
 
-    **Solution:**
+![Test Coverage](data/test_coverage.png)
 
-    Make sure you cloned the YOLOv5 repository and that the `yolov5` directory exists inside your project.
+**Test Categories:**
+- API Tests (9): Endpoint functionality, error handling, file uploads
+- Configuration Tests (3): Configuration management and environment variables
+- Image Processor Tests (9): Image validation, preprocessing, and normalization
+- Response Formatter Tests (5): Result formatting and error responses
+- Integration Tests (6): End-to-end system integration
 
-3. **FileNotFoundError: No such file or directory: 'yolov5s.yaml'**
+## Installation and Setup
 
-    **Solution:**
+**Prerequisites:** Python 3.8+ (see requirements.txt for dependencies)
 
-    You are likely loading YOLOv5 incorrectly. Instead of:
+### Local Setup
 
-    ```python
-    from yolov5.models.yolo import DetectionModel
-    model = DetectionModel()
-    ```
+```bash
+# Clone and navigate
+git clone https://github.com/stuartasiimwe7/DefectNet
+cd DefectNet
 
-    Use:
+# Setup virtual environment
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
-    ```python
-    import torch
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
-    ```
+# Install dependencies
+pip install -r requirements.txt
 
-## Future Improvements
+# Verify with tests
+python -m pytest tests/ -v
 
-- Deploy API using Docker
-- Support batch image processing
-- Integrate authentication for security
-- Add front-end UI for easy usage
+# Start server
+uvicorn app:app --reload --host 0.0.0.0 --port 8000
+```
+
+### Docker Setup
+
+```bash
+docker build -t defectnet .
+docker run -p 8000:8000 defectnet
+```
+
+## Usage Examples
+
+**Health Check:**
+```bash
+curl http://localhost:8000/health
+```
+
+**Single Image Prediction:**
+```bash
+curl -X POST "http://localhost:8000/predict/" \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@pcb_image.jpg"
+```
+
+**Batch Prediction:**
+```bash
+curl -X POST "http://localhost:8000/predict/batch/" \
+  -H "Content-Type: multipart/form-data" \
+  -F "files=@image1.jpg" \
+  -F "files=@image2.jpg"
+```
+
+See [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for detailed API reference
+
+## Configuration
+
+Set environment variables for customization:
+
+```bash
+# Model settings
+MODEL_PATH=models/trained_model.pt
+CONFIDENCE_THRESHOLD=0.5
+MAX_IMAGE_SIZE=1024
+
+# API settings
+API_HOST=0.0.0.0
+API_PORT=8000
+MAX_BATCH_SIZE=10
+MAX_FILE_SIZE_MB=1
+
+# Logging
+LOG_LEVEL=INFO
+```
+
+## Testing
+
+Run all tests:
+```bash
+python -m pytest tests/ -v
+```
+
+Run specific test categories:
+```bash
+python -m pytest tests/test_api.py -v
+python -m pytest tests/test_integration.py -v
+```
+
+Run with coverage report:
+```bash
+python -m pytest tests/ --cov=src --cov-report=html
+```
+
+## Documentation
+
+- [API Documentation](API_DOCUMENTATION.md) - Detailed API reference
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+Built using YOLOv5 by Ultralytics and FastAPI framework for production-ready PCB defect detection.

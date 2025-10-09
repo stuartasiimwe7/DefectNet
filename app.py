@@ -1,7 +1,10 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, Request
 from fastapi.responses import JSONResponse
 import logging
 from typing import List
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 
 from config import Config
 from src.services.defect_detection_service import DefectDetectionService
@@ -9,11 +12,16 @@ from src.services.defect_detection_service import DefectDetectionService
 logging.basicConfig(level=getattr(logging, Config.LOG_LEVEL), format=Config.LOG_FORMAT)
 logger = logging.getLogger(__name__)
 
+limiter = Limiter(key_func=get_remote_address)
+
 app = FastAPI(
     title=Config.API_TITLE,
     description=Config.API_DESCRIPTION,
     version=Config.API_VERSION
 )
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 detection_service = None
 
@@ -46,7 +54,8 @@ async def health_check():
     }
 
 @app.post("/predict/")
-async def predict(file: UploadFile = File(...)):
+@limiter.limit(Config.RATE_LIMIT_SINGLE)
+async def predict(request: Request, file: UploadFile = File(...)):
     """
     Predict defects in uploaded PCB image
     
@@ -62,7 +71,8 @@ async def predict(file: UploadFile = File(...)):
     return await detection_service.predict_single(file)
 
 @app.post("/predict/batch/")
-async def predict_batch(files: List[UploadFile] = File(...)):
+@limiter.limit(Config.RATE_LIMIT_BATCH)
+async def predict_batch(request: Request, files: List[UploadFile] = File(...)):
     """
     Predict defects in multiple uploaded PCB images
     

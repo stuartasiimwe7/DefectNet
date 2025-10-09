@@ -6,6 +6,7 @@ pillow>=9.0.0
 fastapi>=0.100.0
 uvicorn[standard]>=0.22.0
 python-multipart>=0.0.5
+slowapi>=0.1.9
 
 # HTTP requests for online model loading
 requests>=2.28.0
