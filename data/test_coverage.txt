@@ -1,0 +1,43 @@
+================================================= test session starts =================================================
+platform linux -- Python 3.12.3, pytest-8.4.2, pluggy-1.6.0
+cachedir: .pytest_cache
+rootdir: /home/frost/Documents/Projects/DefectNet
+configfile: pytest.ini
+plugins: mock-3.15.1, anyio-4.11.0
+collected 32 items
+
+tests/test_api.py::TestAPI::test_root_endpoint PASSED                                                           [  3%]
+tests/test_api.py::TestAPI::test_health_endpoint PASSED                                                         [  6%]
+tests/test_api.py::TestAPI::test_predict_endpoint_success PASSED                                                [  9%]
+tests/test_api.py::TestAPI::test_predict_endpoint_invalid_file PASSED                                           [ 12%]
+tests/test_api.py::TestAPI::test_predict_endpoint_no_file PASSED                                                [ 15%]
+tests/test_api.py::TestAPI::test_predict_batch_endpoint PASSED                                                  [ 18%]
+tests/test_api.py::TestAPI::test_predict_batch_too_many_files PASSED                                            [ 21%]
+tests/test_api.py::TestAPI::test_info_endpoint PASSED                                                           [ 25%]
+tests/test_api.py::TestAPI::test_global_exception_handler PASSED                                                [ 28%]
+tests/test_config.py::TestConfig::test_model_config PASSED                                                      [ 31%]
+tests/test_config.py::TestConfig::test_api_config PASSED                                                        [ 34%]
+tests/test_config.py::TestConfig::test_environment_variables PASSED                                             [ 37%]
+tests/test_image_processor.py::TestImageProcessor::test_validate_image_valid PASSED                             [ 40%]
+tests/test_image_processor.py::TestImageProcessor::test_validate_image_too_large PASSED                         [ 43%]
+tests/test_image_processor.py::TestImageProcessor::test_validate_image_empty PASSED                             [ 46%]
+tests/test_image_processor.py::TestImageProcessor::test_validate_image_invalid_format PASSED                    [ 50%]
+tests/test_image_processor.py::TestImageProcessor::test_preprocess_image_rgb PASSED                             [ 53%]
+tests/test_image_processor.py::TestImageProcessor::test_preprocess_image_grayscale PASSED                       [ 56%]
+tests/test_image_processor.py::TestImageProcessor::test_get_image_info PASSED                                   [ 59%]
+tests/test_image_processor.py::TestImageProcessor::test_resize_image PASSED                                     [ 62%]
+tests/test_image_processor.py::TestImageProcessor::test_normalize_image PASSED                                  [ 65%]
+tests/test_integration.py::TestIntegration::test_yolo_model_integration PASSED                                  [ 68%]
+tests/test_integration.py::TestIntegration::test_image_processor_integration PASSED                             [ 71%]
+tests/test_integration.py::TestIntegration::test_response_formatter_integration PASSED                          [ 75%]
+tests/test_integration.py::TestIntegration::test_service_integration PASSED                                     [ 78%]
+tests/test_integration.py::TestIntegration::test_error_handling_integration PASSED                              [ 81%]
+tests/test_integration.py::TestIntegration::test_configuration_integration PASSED                               [ 84%]
+tests/test_response_formatter.py::TestResponseFormatter::test_format_single_prediction_success PASSED           [ 87%]
+tests/test_response_formatter.py::TestResponseFormatter::test_format_single_prediction_no_defects PASSED        [ 90%]
+tests/test_response_formatter.py::TestResponseFormatter::test_format_batch_prediction PASSED                    [ 93%]
+tests/test_response_formatter.py::TestResponseFormatter::test_format_error_response PASSED                      [ 96%]
+tests/test_response_formatter.py::TestResponseFormatter::test_extract_predictions_invalid_results PASSED        [100%]
+
+=========================================== 32 passed, 2 warnings in 4.18s ============================================
+

@@ -8,6 +8,14 @@ ENV/
 # Ignore Python cache files
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Ignore test cache
+.pytest_cache/
+.coverage
+htmlcov/
 
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/
@@ -18,7 +26,6 @@ Thumbs.db
 
 # Ignore log files
 *.log
-.gitignore
 
 # Ignore compiled files
 *.o
@@ -32,8 +39,21 @@ Thumbs.db
 *.sublime-project
 *.sublime-workspace
 
-# Ignore everything in data/dataset folders
-data/
+# Ignore data and model directories
 data/pcb_dataset/
 yolov5/
 kagglehub/
+logs/
+*.mar
+*.pt
+*.pth
+*.onnx
+*.tflite
+
+# Ignore notebooks
+notebooks/
+
+# Keep structure files
+!data/.gitkeep
+!models/.gitkeep
+!yolov5/.gitkeep

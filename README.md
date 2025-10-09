@@ -1,5 +1,5 @@
 # DefectNet
-An AI automated system for detecting defects in Printed Circuit Boards (PCBs) using YOLOv5 deep learning models, built with FastAPI.
+A RestFul API for automated detecting of defects in Printed Circuit Boards (PCBs) using YOLOv5 deep learning models, built with FastAPI.
 
 ## Challenge
 
