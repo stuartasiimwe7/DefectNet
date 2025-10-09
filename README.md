@@ -190,7 +190,7 @@ This project uses GitHub Actions for continuous integration and deployment:
 **Continuous Deployment:**
 - Automatic Docker image builds on main branch
 - Published to GitHub Container Registry
-- Tagged with commit SHA and 'latest'
+- Tagged with commit SHA and latest
 
 ## Testing
 
