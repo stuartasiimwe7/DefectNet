@@ -123,13 +123,13 @@ uvicorn app:app --reload --host 0.0.0.0 --port 8000
 ### Docker Setup
 
 **Option 1: Pull from GitHub Container Registry**
-    ```bash
+```bash
 docker pull ghcr.io/stuartasiimwe7/defectnet:latest
 docker run -p 8000:8000 ghcr.io/stuartasiimwe7/defectnet:latest
-    ```
+```
 
 **Option 2: Build locally**
-    ```bash
+```bash
 docker build -t defectnet .
 docker run -p 8000:8000 defectnet
 ```
@@ -160,7 +160,7 @@ See [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for detailed API reference
 
 ## Configuration
 
-Set environment variables for customization:
+Set environment variables for customisation:
 
 ```bash
 # Model settings
@@ -220,4 +220,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-Built using YOLOv5 by Ultralytics and FastAPI framework.
+Built using [YOLOv5](https://github.com/ultralytics/yolov5) by Ultralytics and [FastAPI](https://fastapi.tiangolo.com/) framework.
