@@ -1,4 +1,7 @@
-# DefectNet
+# DefectNet [![Tests](https://github.com/stuartasiimwe7/DefectNet/actions/workflows/python-app.yml/badge.svg)](https://github.com/stuartasiimwe7/DefectNet/actions/workflows/python-app.yml)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A RestFul API for automated detecting of defects in Printed Circuit Boards (PCBs) using YOLOv5 deep learning models, built with FastAPI.
 
 ## Challenge
