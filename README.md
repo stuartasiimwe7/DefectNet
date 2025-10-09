@@ -101,7 +101,7 @@ There is comprehensive test coverage across all components with 32 passing tests
 
 ### Want to replicate?
 
-    ```bash
+```bash
 # Clone and navigate
 git clone https://github.com/stuartasiimwe7/DefectNet
 cd DefectNet
@@ -111,14 +111,14 @@ python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
 # Install dependencies
-    pip install -r requirements.txt
+pip install -r requirements.txt
 
 # Verify with tests
 python -m pytest tests/ -v
 
 # Start server
 uvicorn app:app --reload --host 0.0.0.0 --port 8000
-    ```
+```
 
 ### Docker Setup
 
