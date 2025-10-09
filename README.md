@@ -1,4 +1,4 @@
-# DefectNet [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![CI/CD](https://github.com/stuartasiimwe7/DefectNet/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/stuartasiimwe7/DefectNet/actions/workflows/ci-cd.yml) 
+# DefectNet [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Tests](https://github.com/stuartasiimwe7/DefectNet/actions/workflows/tests.yml/badge.svg)](https://github.com/stuartasiimwe7/DefectNet/actions/workflows/tests.yml) [![CI/CD](https://github.com/stuartasiimwe7/DefectNet/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/stuartasiimwe7/DefectNet/actions/workflows/ci-cd.yml)
 
 A RestFul API for automated detecting of defects in Printed Circuit Boards (PCBs) using YOLOv5 deep learning models, built with FastAPI.
 
@@ -40,25 +40,25 @@ DefectNet provides a robust, scalable REST API service that uses computer vision
 
 ```
 DefectNet/
-├── app.py                      # Main FastAPI application
-├── config.py                   # Configuration management
-├── requirements.txt            # Python dependencies
-├── Dockerfile                  # Docker configuration
+├── app.py
+├── config.py
+├── requirements.txt
+├── Dockerfile
 ├── src/
 │   ├── models/
-│   │   └── yolo_model.py      # YOLOv5 model wrapper
+│   │   └── yolo_model.py
 │   ├── utils/
-│   │   ├── image_processor.py # Image preprocessing
-│   │   └── response_formatter.py # Response formatting
+│   │   ├── image_processor.py
+│   │   └── response_formatter.py
 │   └── services/
-│       └── defect_detection_service.py # Business logic
+│       └── defect_detection_service.py
 ├── tests/
-│   ├── test_api.py            # API endpoint tests
-│   ├── test_config.py         # Configuration tests
-│   ├── test_image_processor.py # Image processing tests
-│   ├── test_response_formatter.py # Response formatting tests
-│   └── test_integration.py    # Integration tests
-└── data/                       # Dataset directory
+│   ├── test_api.py
+│   ├── test_config.py
+│   ├── test_image_processor.py
+│   ├── test_response_formatter.py
+│   └── test_integration.py
+└── data/
 ```
 
 ## Performance Metrics
@@ -101,7 +101,7 @@ There is comprehensive test coverage across all components with 32 passing tests
 
 ### Want to replicate?
 
-```bash
+    ```bash
 # Clone and navigate
 git clone https://github.com/stuartasiimwe7/DefectNet
 cd DefectNet
@@ -111,25 +111,25 @@ python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
 # Install dependencies
-pip install -r requirements.txt
+    pip install -r requirements.txt
 
 # Verify with tests
 python -m pytest tests/ -v
 
 # Start server
 uvicorn app:app --reload --host 0.0.0.0 --port 8000
-```
+    ```
 
 ### Docker Setup
 
 **Option 1: Pull from GitHub Container Registry**
-```bash
+    ```bash
 docker pull ghcr.io/stuartasiimwe7/defectnet:latest
 docker run -p 8000:8000 ghcr.io/stuartasiimwe7/defectnet:latest
-```
+    ```
 
 **Option 2: Build locally**
-```bash
+    ```bash
 docker build -t defectnet .
 docker run -p 8000:8000 defectnet
 ```
