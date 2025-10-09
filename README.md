@@ -1,6 +1,4 @@
-# DefectNet [![Tests](https://github.com/stuartasiimwe7/DefectNet/actions/workflows/python-app.yml/badge.svg)](https://github.com/stuartasiimwe7/DefectNet/actions/workflows/python-app.yml)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+# DefectNet [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![CI/CD](https://github.com/stuartasiimwe7/DefectNet/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/stuartasiimwe7/DefectNet/actions/workflows/ci-cd.yml) 
 
 A RestFul API for automated detecting of defects in Printed Circuit Boards (PCBs) using YOLOv5 deep learning models, built with FastAPI.
 
@@ -101,7 +99,7 @@ There is comprehensive test coverage across all components with 32 passing tests
 
 **Prerequisites:** Python 3.8+ (see requirements.txt for dependencies)
 
-### Local Setup
+### Want to replicate?
 
 ```bash
 # Clone and navigate
@@ -124,6 +122,13 @@ uvicorn app:app --reload --host 0.0.0.0 --port 8000
 
 ### Docker Setup
 
+**Option 1: Pull from GitHub Container Registry**
+```bash
+docker pull ghcr.io/stuartasiimwe7/defectnet:latest
+docker run -p 8000:8000 ghcr.io/stuartasiimwe7/defectnet:latest
+```
+
+**Option 2: Build locally**
 ```bash
 docker build -t defectnet .
 docker run -p 8000:8000 defectnet
@@ -173,6 +178,20 @@ MAX_FILE_SIZE_MB=1
 LOG_LEVEL=INFO
 ```
 
+## CI/CD Pipeline
+
+This project uses GitHub Actions for continuous integration and deployment:
+
+**Continuous Integration:**
+- Automated testing on every push/PR
+- Code linting with flake8
+- Python 3.12 compatibility checks
+
+**Continuous Deployment:**
+- Automatic Docker image builds on main branch
+- Published to GitHub Container Registry
+- Tagged with commit SHA and 'latest'
+
 ## Testing
 
 Run all tests:
@@ -201,4 +220,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-Built using YOLOv5 by Ultralytics and FastAPI framework for production-ready PCB defect detection.
+Built using YOLOv5 by Ultralytics and FastAPI framework.
