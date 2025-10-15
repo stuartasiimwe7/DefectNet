@@ -13,16 +13,13 @@ DefectNet provides a robust, scalable REST API service that uses computer vision
 ## System Architecture
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   FastAPI App   │    │  YOLOv5 Model   │    │  Image Processor│
-│   (REST API)    │<──>│   (Detection)   │<──>│  (Preprocessing)│
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         v                       v                       v
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│ Response        │    │ Configuration   │    │ Error Handling  │
-│ Formatter       │    │ Management      │    │ & Logging       │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+
+   FastAPI App         YOLOv5 Model         Image Processor
+   (REST API)    <──>   (Detection)   <──>  (Preprocessing)
+         │                     │                       │
+         v                     v                       v
+    Response             Configuration        Error Handling  
+    Formatter            Management           & Logging       
 ```
 
 ## Key Features
